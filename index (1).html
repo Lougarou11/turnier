@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Turnierplan – Weibliche C-Jugend</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap');
+
+    :root {
+      --navy:   #0d1b2a;
+      --teal:   #1b998b;
+      --teal-light: #2ec4b6;
+      --amber:  #e9c46a;
+      --white:  #f8f9fa;
+      --grey:   #8d99ae;
+      --card:   #162232;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      min-height: 100vh;
+      padding-bottom: 3rem;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #0d1b2a 0%, #162d44 100%);
+      border-bottom: 3px solid var(--teal);
+      padding: 1.5rem 1rem 1rem;
+      text-align: center;
+    }
+    .eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal-light);
+      margin-bottom: 0.4rem;
+    }
+    h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1.8rem, 6vw, 3rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--white);
+    }
+    h1 span { color: var(--teal-light); }
+    .meta {
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--grey);
+    }
+
+    /* LAYOUT */
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 0;
+    }
+
+    section { margin-bottom: 2rem; }
+
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid #1e3450;
+    }
+
+    /* STANDINGS TABLE */
+    .standings {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    .standings thead tr {
+      background: #1a2e44;
+    }
+    .standings th {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grey);
+      padding: 0.6rem 0.75rem;
+      text-align: center;
+    }
+    .standings th.left { text-align: left; }
+    .standings tbody tr {
+      border-bottom: 1px solid #1e3450;
+      transition: background 0.15s;
+    }
+    .standings tbody tr:hover { background: #1a2e44; }
+    .standings td {
+      padding: 0.75rem 0.75rem;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .standings td.team-name {
+      text-align: left;
+      font-weight: 600;
+    }
+    .standings td.pts {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--amber);
+    }
+    .rank-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 50%;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 0.85rem;
+      background: #1e3450;
+      color: var(--grey);
+      margin-right: 0.4rem;
+    }
+    .rank-1 { background: var(--amber); color: var(--navy); }
+    .rank-2 { background: #b0bec5; color: var(--navy); }
+    .rank-3 { background: #a0785a; color: #fff; }
+
+    /* SCHEDULE */
+    .schedule { display: flex; flex-direction: column; gap: 0.6rem; }
+    .game-card {
+      background: var(--card);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      display: grid;
+      grid-template-columns: 3.5rem 1fr auto 1fr 3.5rem;
+      align-items: center;
+      gap: 0.5rem;
+      border-left: 3px solid transparent;
+    }
+    .game-card.played { border-left-color: var(--teal); }
+    .game-card.live   { border-left-color: var(--amber); animation: pulse-border 1.5s infinite; }
+    @keyframes pulse-border {
+      0%, 100% { border-left-color: var(--amber); }
+      50%       { border-left-color: transparent; }
+    }
+    .game-time {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--teal-light);
+      line-height: 1.2;
+      text-align: center;
+    }
+    .game-team {
+      font-size: 0.82rem;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+    .game-team.right { text-align: right; }
+    .score-box {
+      text-align: center;
+      min-width: 4rem;
+    }
+    .score {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 0.05em;
+    }
+    .score-dash {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      color: var(--grey);
+    }
+    .game-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--grey);
+      text-align: center;
+    }
+
+    /* LAST UPDATED */
+    .updated {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--grey);
+      margin-top: 1rem;
+    }
+    .live-dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+      margin-right: 5px;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Handball · Jugendturnier</div>
+  <h1>Weibliche <span>C-Jugend</span></h1>
+  <div class="meta">Gruppenphase · 2 × 20 Min · 5 Min Pause · Beginn 10:30 Uhr</div>
+</header>
+
+<div class="container">
+
+  <!-- TABELLE -->
+  <section>
+    <div class="section-title">Tabelle</div>
+    <table class="standings">
+      <thead>
+        <tr>
+          <th class="left" colspan="2">Mannschaft</th>
+          <th>Sp</th>
+          <th>S</th>
+          <th>U</th>
+          <th>N</th>
+          <th>Tore</th>
+          <th>Pkt</th>
+        </tr>
+      </thead>
+      <tbody id="standings-body">
+        <!-- wird per JS befüllt -->
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SPIELPLAN -->
+  <section>
+    <div class="section-title">Spielplan</div>
+    <div class="schedule" id="schedule">
+      <!-- wird per JS befüllt -->
+    </div>
+  </section>
+
+  <div class="updated" id="updated-info"></div>
+
+</div>
+
+<script>
+  const TEAMS = [
+    { id: 1, name: "HSG Langen wC2" },
+    { id: 2, name: "HSG Langen wC1" },
+    { id: 3, name: "JSG Mörfelden/Walldorf" },
+    { id: 4, name: "Bezirk DA 2013" },
+  ];
+
+  const GAMES = [
+    { num: 1, home: 1, away: 2, time: "10:30", end: "11:15", score: [10, 30] },
+    { num: 2, home: 3, away: 4, time: "11:30", end: "12:15", score: [13, 37] },
+    { num: 3, home: 4, away: 1, time: "12:30", end: "13:15", score: null },
+    { num: 4, home: 2, away: 3, time: "13:30", end: "14:15", score: null },
+    { num: 5, home: 4, away: 2, time: "14:30", end: "15:15", score: null },
+    { num: 6, home: 1, away: 3, time: "15:30", end: "16:15", score: null },
+  ];
+  // score: null = nicht gespielt, [homeGoals, awayGoals] = gespielt
+
+  function teamName(id) {
+    return TEAMS.find(t => t.id === id).name;
+  }
+
+  function calcStandings() {
+    const stats = {};
+    TEAMS.forEach(t => stats[t.id] = { id: t.id, name: t.name, sp: 0, s: 0, u: 0, n: 0, tor: 0, geg: 0, pkt: 0 });
+
+    GAMES.forEach(g => {
+      if (!g.score) return;
+      const [h, a] = g.score;
+      const hs = stats[g.home], as = stats[g.away];
+      hs.sp++; as.sp++;
+      hs.tor += h; hs.geg += a;
+      as.tor += a; as.geg += h;
+      if (h > a)      { hs.s++; hs.pkt += 2; as.n++; }
+      else if (h < a) { as.s++; as.pkt += 2; hs.n++; }
+      else            { hs.u++; as.u++; hs.pkt++; as.pkt++; }
+    });
+
+    return Object.values(stats).sort((a, b) => {
+      if (b.pkt !== a.pkt) return b.pkt - a.pkt;
+      const aTd = a.tor - a.geg, bTd = b.tor - b.geg;
+      if (bTd !== aTd) return bTd - aTd;
+      return b.tor - a.tor;
+    });
+  }
+
+  function renderStandings() {
+    const tbody = document.getElementById('standings-body');
+    const rows = calcStandings();
+    tbody.innerHTML = rows.map((t, i) => `
+      <tr>
+        <td style="width:2.2rem">
+          <span class="rank-badge rank-${i+1}">${i+1}</span>
+        </td>
+        <td class="team-name">${t.name}</td>
+        <td>${t.sp}</td>
+        <td>${t.s}</td>
+        <td>${t.u}</td>
+        <td>${t.n}</td>
+        <td>${t.tor}:${t.geg}</td>
+        <td class="pts">${t.pkt}</td>
+      </tr>
+    `).join('');
+  }
+
+  function renderSchedule() {
+    const container = document.getElementById('schedule');
+    container.innerHTML = GAMES.map(g => {
+      const played = g.score !== null;
+      const cls = played ? 'played' : '';
+      const scoreHtml = played
+        ? `<div class="score">${g.score[0]}<span class="score-dash"> : </span>${g.score[1]}</div>`
+        : `<div class="score-dash">–</div>`;
+      return `
+        <div class="game-card ${cls}">
+          <div class="game-time">${g.time}<br><span style="color:var(--grey);font-weight:400">${g.end}</span></div>
+          <div class="game-team">${teamName(g.home)}</div>
+          <div class="score-box">${scoreHtml}</div>
+          <div class="game-team right">${teamName(g.away)}</div>
+          <div class="game-num">Spiel ${g.num}</div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderUpdated() {
+    const played = GAMES.filter(g => g.score !== null).length;
+    const el = document.getElementById('updated-info');
+    if (played === 0) {
+      el.textContent = 'Noch keine Ergebnisse eingetragen.';
+    } else {
+      const now = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+      el.innerHTML = `<span class="live-dot"></span> Zuletzt aktualisiert: ${now} Uhr · ${played} von 6 Spielen gespielt`;
+    }
+  }
+
+  function render() {
+    renderStandings();
+    renderSchedule();
+    renderUpdated();
+  }
+
+  render();
+</script>
+</body>
+</html>
